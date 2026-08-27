@@ -1,0 +1,47 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/ecommerce-realm
+  application:
+    name: product-service
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/productdb
+    username: postgres
+    password: 02877
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      initialization-fail-timeout: 60000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+jwt:
+  secret: bXlfdmVyeV9zZWNyZXRfa2V5X2Zvcl9qd3RfYXV0aGVudGljYXRpb25fMjAyNg==
+  expiration: 86400000
+
+server:
+  port: 8083
+
+app:
+  seed:
+    enabled: true
+

@@ -1,0 +1,51 @@
+spring:
+  application:
+        name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+
+            - id: order-service
+              uri: http://order-service:8081
+              predicates:
+                - Path=/api/orders/**
+
+            - id: auth-service
+              uri: http://order-service:8081
+              predicates:
+                - Path=/api/auth/**
+
+            - id: notification-service
+              uri: http://notification-service:8082
+              predicates:
+                - Path=/api/notifications/**
+
+            # Keep these only if Product Service is running
+            - id: product-service
+              uri: http://product-service:8083
+              predicates:
+                - Path=/api/products/**
+
+            - id: category-service
+              uri: http://product-service:8083
+              predicates:
+                - Path=/api/categories/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+jwt:
+  secret: bXlfdmVyeV9zZWNyZXRfa2V5X2Zvcl9qd3RfYXV0aGVudGljYXRpb25fMjAyNg==
+  expiration: 86400000
+
+#keycloak:
+#  issuer-uri: http://keycloak:8080/realms/ecommerce-realm
+#  jwk-set-uri: http://keycloak:8080/realms/ecommerce-realm/protocol/openid-connect/certs
+
+keycloak:
+  jwk-set-uri: http://keycloak:8080/realms/ecommerce-realm/protocol/openid-connect/certs
+  issuer-uri: http://keycloak:8080/realms/ecommerce-realm

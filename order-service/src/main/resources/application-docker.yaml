@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: order-service
+
+  base-url: http://product-service:8083
+
+
+
+#
+#  profiles:
+#    active: postgres, rabbitmq
+
+#  config:
+#    import: vault://
+#  cloud:
+#    vault:
+#      uri: http://vault:8200
+#      authentication: token
+#      token: root
+#      kv:
+#        enabled: true
+#        backend: secret
+#        default-context: ${spring.application.name}
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/orderdb
+    username: postgres
+    password: 02877
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      initialization-fail-timeout: 60000
+
+  data:
+    mongodb:
+     uri: mongodb://admin:admin123@mongodb:27017/orderdb?authSource=admin
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+      properties:
+        retry.backoff.ms: 1000
+        reconnect.backoff.max.ms: 10000
+        reconnect.backoff.ms: 1000
+        spring.json.type.mapping: "orderEvent:com.ecommerce.plateform.orderservice.kafka.OrderEvent"
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+jwt:
+  secret: bXlfdmVyeV9zZWNyZXRfa2V5X2Zvcl9qd3RfYXV0aGVudGljYXRpb25fMjAyNg==
+  expiration: 86400000
+server:
+  port: 8081
+
+
+product-service:
+  base-url: http://product-service:8083
+
+#keycloak:
+#  issuer-uri: http://keycloak:8080/realms/ecommerce-realm
+#  jwk-set-uri: http://keycloak:8080/realms/ecommerce-realm/protocol/openid-connect/certs
+
+keycloak:
+  jwk-set-uri: http://keycloak:8080/realms/ecommerce-realm/protocol/openid-connect/certs
+  issuer-uri: http://keycloak:8080/realms/ecommerce-realm

@@ -1,0 +1,93 @@
+spring:
+  application:
+    name: notification-service
+
+#  profiles:
+#    active: postgres, rabbitmq
+
+#  config:
+#    import: vault://
+#  cloud:
+#    vault:
+#      uri: http://vault:8200
+#      authentication: token
+#      token: root
+#      kv:
+#        enabled: true
+#        backend: secret
+#        default-context: ${spring.application.name}
+
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/notificationdb
+    username: postgres
+    password: 02877
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      initialization-fail-timeout: 60000
+
+  data:
+    mongodb:
+      uri: mongodb://admin:admin123@mongodb:27017/notificationdb?authSource=admin
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  rabbitmq:
+
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+  kafka:
+    bootstrap-servers: kafka:9092
+
+    consumer:
+      group-id: notification-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+      properties:
+        retry.backoff.ms: 1000
+        reconnect.backoff.max.ms: 10000
+        reconnect.backoff.ms: 1000
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: false
+        #        spring.json.type.mapping: "orderEvent:com.ecommerce.plateform.notificationservice.kafka.OrderEvent"
+        spring.json.value.default.type: com.ecommerce.plateform.notificationservice.kafka.OrderEvent
+
+  Jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+
+# FIXED: Corrected indentation for logging level
+#logging:
+#  level:
+#    org.springframework.kafka: DEBUG
+#    org.apache.kafka: WARN
+
+jwt:
+  secret: bXlfdmVyeV9zZWNyZXRfa2V5X2Zvcl9qd3RfYXV0aGVudGljYXRpb25fMjAyNg==
+  expiration: 86400000
+
+
+server:
+  port: 8082
+
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8181/realms/ecommerce-realm
+
+
+
+
+
+
