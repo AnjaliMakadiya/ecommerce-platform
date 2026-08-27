@@ -20,8 +20,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://postgres:5432/notificationdb
-    username: postgres
-    password: 02877
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       initialization-fail-timeout: 60000
@@ -37,11 +37,12 @@ spring:
     show-sql: true
 
   rabbitmq:
-
     host: rabbitmq
     port: 5672
-    username: guest
-    password: guest
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+
+
 
   kafka:
     bootstrap-servers: kafka:9092
@@ -72,7 +73,7 @@ spring:
 #    org.apache.kafka: WARN
 
 jwt:
-  secret: bXlfdmVyeV9zZWNyZXRfa2V5X2Zvcl9qd3RfYXV0aGVudGljYXRpb25fMjAyNg==
+  secret: ${JWT_SECRET}
   expiration: 86400000
 
 

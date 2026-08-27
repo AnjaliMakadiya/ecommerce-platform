@@ -7,8 +7,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/productdb
-    username: postgres
-    password: 02877
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       initialization-fail-timeout: 60000
@@ -32,11 +32,11 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
 
 jwt:
-  secret: bXlfdmVyeV9zZWNyZXRfa2V5X2Zvcl9qd3RfYXV0aGVudGljYXRpb25fMjAyNg==
+  secret: ${JWT_SECRET}
   expiration: 86400000
 
 server:
