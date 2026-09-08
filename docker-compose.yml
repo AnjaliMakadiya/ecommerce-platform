@@ -7,7 +7,7 @@ services:
     container_name: postgres
     # restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /var/lib/postgresql/data
       # POSTGRES_DB: postgres
@@ -40,7 +40,7 @@ services:
   # =========================
   order-service:
     build:
-      context: ./microservices/order-service
+      context: ./order-service
       dockerfile: Dockerfile
 
     image: order-service:latest
@@ -51,6 +51,9 @@ services:
     ports:
       - "8081:8081"
     environment:
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
       # FORCE SPRING TO USE DOCKER VALUES
       SPRING_APPLICATION_NAME: order-service
       SPRING_PROFILES_ACTIVE: docker,postgres,rabbitmq
@@ -60,7 +63,7 @@ services:
   # =========================
   notification-service:
     build:
-      context: ./microservices/notification-service
+      context: ./notification-service
       dockerfile: Dockerfile
 
     image: notification-service:latest
@@ -71,6 +74,11 @@ services:
     ports:
       - "8082:8082"
     environment:
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
       SPRING_APPLICATION_NAME: notification-service
       SPRING_PROFILES_ACTIVE: docker,postgres,rabbitmq
 
@@ -79,7 +87,7 @@ services:
   # =========================
   api-gateway:
     build:
-      context: ./microservices/api-gateway
+      context: ./api-gateway
       dockerfile: Dockerfile
 
     image: api-gateway:latest
@@ -95,6 +103,7 @@ services:
     ports:
       - "8080:8080"
     environment:
+      JWT_SECRET: ${JWT_SECRET}
       SPRING_APPLICATION_NAME: api-gateway
       SPRING_PROFILES_ACTIVE: docker
     extra_hosts:
@@ -105,7 +114,7 @@ services:
   # =========================
   product-service:
     build:
-      context: ./microservices/product-service
+      context: ./product-service
       dockerfile: Dockerfile
 
     image: product-service:latest
@@ -117,6 +126,9 @@ services:
     ports:
       - "8083:8083"
     environment:
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
       # FORCE SPRING TO USE DOCKER VALUES
       SPRING_APPLICATION_NAME: product-service
       SPRING_PROFILES_ACTIVE: docker,postgres,rabbitmq
@@ -131,8 +143,8 @@ services:
     container_name: keycloak
 
     environment:
-      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_USERNAME}
-      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_PASSWORD}
+      KC_USERNAME: ${KC_USERNAME}
+      KC_PASSWORD: ${KC_PASSWORD}
 
       # PostgreSQL configuration
       KC_DB: postgres
