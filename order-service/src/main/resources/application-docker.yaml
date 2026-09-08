@@ -23,11 +23,12 @@ spring:
 #        default-context: ${spring.application.name}
 
   datasource:
-    url: jdbc:postgresql://postgres:5432/orderdb
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
+    url: JDBC:postgresql://postgres:5432/orderdb
+    POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
     driver-class-name: org.postgresql.Driver
+
     hikari:
       initialization-fail-timeout: 60000
 

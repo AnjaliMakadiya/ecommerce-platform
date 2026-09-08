@@ -1,0 +1,4 @@
+CREATE DATABASE orderdb;
+CREATE DATABASE notificationdb;
+CREATE DATABASE productdb;
+CREATE DATABASE keycloakdb;

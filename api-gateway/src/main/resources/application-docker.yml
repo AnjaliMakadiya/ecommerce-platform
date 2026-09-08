@@ -42,10 +42,6 @@ jwt:
   secret: ${JWT_SECRET}
   expiration: 86400000
 
-#keycloak:
-#  issuer-uri: http://keycloak:8080/realms/ecommerce-realm
-#  jwk-set-uri: http://keycloak:8080/realms/ecommerce-realm/protocol/openid-connect/certs
-
 keycloak:
   jwk-set-uri: http://keycloak:8080/realms/ecommerce-realm/protocol/openid-connect/certs
   issuer-uri: http://keycloak:8080/realms/ecommerce-realm
