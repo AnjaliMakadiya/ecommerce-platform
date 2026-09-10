@@ -1,11 +1,26 @@
 spring:
   application:
-        name: api-gateway
+    name: api-gateway
 
   cloud:
     gateway:
       server:
         webmvc:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - "http://localhost:5173"
+                  - "https://anjali-ecommerce.duckdns.org"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders:
+                  - "*"
+                allowCredentials: true
           routes:
 
             - id: order-service
@@ -23,7 +38,6 @@ spring:
               predicates:
                 - Path=/api/notifications/**
 
-            # Keep these only if Product Service is running
             - id: product-service
               uri: http://product-service:8083
               predicates:
